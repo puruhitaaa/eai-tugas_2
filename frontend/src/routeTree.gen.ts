@@ -14,8 +14,6 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as TableImport } from './routes/table'
-import { Route as StudentsStudentIdViewImport } from './routes/students.$studentId.view'
-import { Route as StudentsStudentIdEditImport } from './routes/students.$studentId.edit'
 
 // Create Virtual Routes
 
@@ -35,18 +33,6 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
-const StudentsStudentIdViewRoute = StudentsStudentIdViewImport.update({
-  id: '/students/$studentId/view',
-  path: '/students/$studentId/view',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const StudentsStudentIdEditRoute = StudentsStudentIdEditImport.update({
-  id: '/students/$studentId/edit',
-  path: '/students/$studentId/edit',
-  getParentRoute: () => rootRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -65,20 +51,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TableImport
       parentRoute: typeof rootRoute
     }
-    '/students/$studentId/edit': {
-      id: '/students/$studentId/edit'
-      path: '/students/$studentId/edit'
-      fullPath: '/students/$studentId/edit'
-      preLoaderRoute: typeof StudentsStudentIdEditImport
-      parentRoute: typeof rootRoute
-    }
-    '/students/$studentId/view': {
-      id: '/students/$studentId/view'
-      path: '/students/$studentId/view'
-      fullPath: '/students/$studentId/view'
-      preLoaderRoute: typeof StudentsStudentIdViewImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -87,55 +59,36 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/table': typeof TableRoute
-  '/students/$studentId/edit': typeof StudentsStudentIdEditRoute
-  '/students/$studentId/view': typeof StudentsStudentIdViewRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/table': typeof TableRoute
-  '/students/$studentId/edit': typeof StudentsStudentIdEditRoute
-  '/students/$studentId/view': typeof StudentsStudentIdViewRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/table': typeof TableRoute
-  '/students/$studentId/edit': typeof StudentsStudentIdEditRoute
-  '/students/$studentId/view': typeof StudentsStudentIdViewRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/table'
-    | '/students/$studentId/edit'
-    | '/students/$studentId/view'
+  fullPaths: '/' | '/table'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/table' | '/students/$studentId/edit' | '/students/$studentId/view'
-  id:
-    | '__root__'
-    | '/'
-    | '/table'
-    | '/students/$studentId/edit'
-    | '/students/$studentId/view'
+  to: '/' | '/table'
+  id: '__root__' | '/' | '/table'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   TableRoute: typeof TableRoute
-  StudentsStudentIdEditRoute: typeof StudentsStudentIdEditRoute
-  StudentsStudentIdViewRoute: typeof StudentsStudentIdViewRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   TableRoute: TableRoute,
-  StudentsStudentIdEditRoute: StudentsStudentIdEditRoute,
-  StudentsStudentIdViewRoute: StudentsStudentIdViewRoute,
 }
 
 export const routeTree = rootRoute
@@ -149,9 +102,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/table",
-        "/students/$studentId/edit",
-        "/students/$studentId/view"
+        "/table"
       ]
     },
     "/": {
@@ -159,12 +110,6 @@ export const routeTree = rootRoute
     },
     "/table": {
       "filePath": "table.tsx"
-    },
-    "/students/$studentId/edit": {
-      "filePath": "students.$studentId.edit.tsx"
-    },
-    "/students/$studentId/view": {
-      "filePath": "students.$studentId.view.tsx"
     }
   }
 }

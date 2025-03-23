@@ -24,20 +24,6 @@ export const Route = createRootRoute({
         <header className='p-4 bg-indigo-600 text-white shadow-md'>
           <div className='container mx-auto flex justify-between items-center'>
             <h1 className='text-xl font-bold'>Student Management System</h1>
-            <nav className='flex gap-4'>
-              <Link
-                to='/'
-                className='hover:text-indigo-200 [&.active]:text-white [&.active]:font-bold'
-              >
-                Students
-              </Link>
-              <Link
-                to='/student/new'
-                className='hover:text-indigo-200 [&.active]:text-white [&.active]:font-bold'
-              >
-                Add Student
-              </Link>
-            </nav>
           </div>
         </header>
         <QueryClientProvider client={queryClient}>
