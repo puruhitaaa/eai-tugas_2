@@ -14,26 +14,14 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as TableImport } from './routes/table'
+import { Route as StudentsStudentIdViewImport } from './routes/students.$studentId.view'
+import { Route as StudentsStudentIdEditImport } from './routes/students.$studentId.edit'
 
 // Create Virtual Routes
 
-const QueryLazyImport = createFileRoute('/query')()
-const FormLazyImport = createFileRoute('/form')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
-
-const QueryLazyRoute = QueryLazyImport.update({
-  id: '/query',
-  path: '/query',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/query.lazy').then((d) => d.Route))
-
-const FormLazyRoute = FormLazyImport.update({
-  id: '/form',
-  path: '/form',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/form.lazy').then((d) => d.Route))
 
 const TableRoute = TableImport.update({
   id: '/table',
@@ -46,6 +34,18 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const StudentsStudentIdViewRoute = StudentsStudentIdViewImport.update({
+  id: '/students/$studentId/view',
+  path: '/students/$studentId/view',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StudentsStudentIdEditRoute = StudentsStudentIdEditImport.update({
+  id: '/students/$studentId/edit',
+  path: '/students/$studentId/edit',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -65,18 +65,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TableImport
       parentRoute: typeof rootRoute
     }
-    '/form': {
-      id: '/form'
-      path: '/form'
-      fullPath: '/form'
-      preLoaderRoute: typeof FormLazyImport
+    '/students/$studentId/edit': {
+      id: '/students/$studentId/edit'
+      path: '/students/$studentId/edit'
+      fullPath: '/students/$studentId/edit'
+      preLoaderRoute: typeof StudentsStudentIdEditImport
       parentRoute: typeof rootRoute
     }
-    '/query': {
-      id: '/query'
-      path: '/query'
-      fullPath: '/query'
-      preLoaderRoute: typeof QueryLazyImport
+    '/students/$studentId/view': {
+      id: '/students/$studentId/view'
+      path: '/students/$studentId/view'
+      fullPath: '/students/$studentId/view'
+      preLoaderRoute: typeof StudentsStudentIdViewImport
       parentRoute: typeof rootRoute
     }
   }
@@ -87,46 +87,55 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/table': typeof TableRoute
-  '/form': typeof FormLazyRoute
-  '/query': typeof QueryLazyRoute
+  '/students/$studentId/edit': typeof StudentsStudentIdEditRoute
+  '/students/$studentId/view': typeof StudentsStudentIdViewRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/table': typeof TableRoute
-  '/form': typeof FormLazyRoute
-  '/query': typeof QueryLazyRoute
+  '/students/$studentId/edit': typeof StudentsStudentIdEditRoute
+  '/students/$studentId/view': typeof StudentsStudentIdViewRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/table': typeof TableRoute
-  '/form': typeof FormLazyRoute
-  '/query': typeof QueryLazyRoute
+  '/students/$studentId/edit': typeof StudentsStudentIdEditRoute
+  '/students/$studentId/view': typeof StudentsStudentIdViewRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/table' | '/form' | '/query'
+  fullPaths:
+    | '/'
+    | '/table'
+    | '/students/$studentId/edit'
+    | '/students/$studentId/view'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/table' | '/form' | '/query'
-  id: '__root__' | '/' | '/table' | '/form' | '/query'
+  to: '/' | '/table' | '/students/$studentId/edit' | '/students/$studentId/view'
+  id:
+    | '__root__'
+    | '/'
+    | '/table'
+    | '/students/$studentId/edit'
+    | '/students/$studentId/view'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   TableRoute: typeof TableRoute
-  FormLazyRoute: typeof FormLazyRoute
-  QueryLazyRoute: typeof QueryLazyRoute
+  StudentsStudentIdEditRoute: typeof StudentsStudentIdEditRoute
+  StudentsStudentIdViewRoute: typeof StudentsStudentIdViewRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   TableRoute: TableRoute,
-  FormLazyRoute: FormLazyRoute,
-  QueryLazyRoute: QueryLazyRoute,
+  StudentsStudentIdEditRoute: StudentsStudentIdEditRoute,
+  StudentsStudentIdViewRoute: StudentsStudentIdViewRoute,
 }
 
 export const routeTree = rootRoute
@@ -141,8 +150,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/table",
-        "/form",
-        "/query"
+        "/students/$studentId/edit",
+        "/students/$studentId/view"
       ]
     },
     "/": {
@@ -151,11 +160,11 @@ export const routeTree = rootRoute
     "/table": {
       "filePath": "table.tsx"
     },
-    "/form": {
-      "filePath": "form.lazy.tsx"
+    "/students/$studentId/edit": {
+      "filePath": "students.$studentId.edit.tsx"
     },
-    "/query": {
-      "filePath": "query.lazy.tsx"
+    "/students/$studentId/view": {
+      "filePath": "students.$studentId.view.tsx"
     }
   }
 }
