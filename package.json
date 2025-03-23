@@ -1,0 +1,15 @@
+{
+  "name": "tugas_2_new",
+  "version": "1.0.0",
+  "scripts": {
+    "frontend": "cd frontend && bun run dev",
+    "backend": "cd backend && bun run dev",
+    "dev": "concurrently \"bun run frontend\" \"bun run backend\""
+  },
+  "author": "Pahuger",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
